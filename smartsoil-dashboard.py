@@ -113,7 +113,7 @@ with cm2:
         st.download_button("Download Data", data= reg_csv, file_name="crop Data.csv", mime= "csv/txt",
                            help = "Click to download data as CSV" )
         
-#time series analysis month-year(extract month)
+#time series analysis month-year
 filtered_df["Test Date"] = filtered_df["Test Date"].dt.to_period("M")
 st.subheader('Time series analysis')
 
@@ -121,7 +121,7 @@ linechart = pd.DataFrame(filtered_df.groupby(filtered_df["Test Date"].dt.strftim
 fig2 = px.line(linechart, x = "Test Date", y = "Rainfall(mm)", labels={"Rainfall":"Rainfall(mm)"}, height = 500, width = 1000, template = "gridon")
 st.plotly_chart(fig2, use_container_width= True)
 
-# User interface for selecting factors 
+
 st.subheader("Factor Comparison")
 selected_factors = st.multiselect("Select Factors to Compare with Rain:", df.columns[1:], default=["Temperature"]) 
 columns = st.columns(len(selected_factors))
@@ -141,11 +141,11 @@ if len(selected_factors) < 2:
   st.stop()  # Stop execution if not enough factors are selected
 
 
-columns = st.columns(len(selected_factors) - 1)  # One less column than factors
+columns = st.columns(len(selected_factors) - 1)  
 
 # Plot each factor against the first selected factor 
 reference_factor = selected_factors[0]
-for i, factor in enumerate(selected_factors[1:]):  # Skip the first factor
+for i, factor in enumerate(selected_factors[1:]): 
   with columns[i]:
     fig = px.bar(df, x=factor, y=reference_factor, title=f"{factor} vs. {reference_factor}")
     st.plotly_chart(fig)
