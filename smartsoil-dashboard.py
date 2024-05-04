@@ -5,24 +5,12 @@ import pandas as pd
 import os
 import warnings
 warnings.filterwarnings('ignore')
-import pickle
 
 
 st.set_page_config(page_title="Smart Soil Dashboard", page_icon=":chart_with_upwards_trend:",layout="wide")
 #setting title
-#st.title (":chart_with_upwards_trend: Smart-Soil Dashboard") 
-#st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
-
-####
-app_mode = st.sidebar.selectbox('Select Page',['Home','Prediction']) #two pages
-if app_mode=='Home':
-    st.title (":chart_with_upwards_trend: Smart-Soil Dashboard") 
-    st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
-    
-elif app_mode == 'Prediction':
-    #st.image('slider-short-3.jpg')
-    st.subheader('You need to fill all the necessary information to get a prediction!')
-    st.sidebar.header("Informations about the client :")
+st.title (":chart_with_upwards_trend: Smart-Soil Dashboard") 
+st.markdown('<style>div.block-container{padding-top:1rem}</style>', unsafe_allow_html=True)
 
 
 #browse and upload files
@@ -32,7 +20,7 @@ if fl is not None:
     st.write(filename)
     df = pd.read_csv(filename, encoding="ISO-8859-1")
 else:
-    os.chdir(r"C:\Users\ashle\OneDrive\Документы\smart soil")
+    os.chdir(r"C:\Users\ashle\OneDrive\Документы\smart_soil")
     df = pd.read_csv("crop_data.csv", encoding="ISO-8859-1")
 
 #####################################################
@@ -113,15 +101,16 @@ with cm2:
         st.download_button("Download Data", data= reg_csv, file_name="crop Data.csv", mime= "csv/txt",
                            help = "Click to download data as CSV" )
         
-#time series analysis month-year
-filtered_df["Test Date"] = filtered_df["Test Date"].dt.to_period("M")
-st.subheader('Time series analysis')
+#time series analysis month-year(extract month)
+#filtered_df["Test Date"] = filtered_df["Test Date"].dt.to_period("M")
+#st.subheader('Time series analysis')
 
-linechart = pd.DataFrame(filtered_df.groupby(filtered_df["Test Date"].dt.strftime("%Y : %b"))["Rainfall(mm)"].sum()).reset_index()
-fig2 = px.line(linechart, x = "Test Date", y = "Rainfall(mm)", labels={"Rainfall":"Rainfall(mm)"}, height = 500, width = 1000, template = "gridon")
-st.plotly_chart(fig2, use_container_width= True)
+#linechart = pd.DataFrame(filtered_df.groupby(filtered_df["Test Date"].dt.strftime("%Y : %b"))["Rainfall(mm)"].sum()).reset_index()
+#fig2 = px.line(linechart, x = "Test Date", y = "Rainfall(mm)", labels={"Rainfall":"Rainfall(mm)"}, height = 500, width = 1000, template = "gridon")
+#st.plotly_chart(fig2, use_container_width= True)
 
 
+# User interface for selecting factors 
 st.subheader("Factor Comparison")
 selected_factors = st.multiselect("Select Factors to Compare with Rain:", df.columns[1:], default=["Temperature"]) 
 columns = st.columns(len(selected_factors))
@@ -132,7 +121,6 @@ for i, factor in enumerate(selected_factors):
     fig = px.bar(df, x=factor, y="Rainfall(mm)", title=f"Rainfall(mm) vs. {factor}")
     st.plotly_chart(fig)
 
-# User interface for selecting factors
 selected_factors = st.multiselect("Select Factors to Compare:", df.columns[1:])  # Exclude Crop column
 
 # Handling potential selection errors
@@ -145,7 +133,26 @@ columns = st.columns(len(selected_factors) - 1)
 
 # Plot each factor against the first selected factor 
 reference_factor = selected_factors[0]
-for i, factor in enumerate(selected_factors[1:]): 
+for i, factor in enumerate(selected_factors[1:]):  
   with columns[i]:
     fig = px.bar(df, x=factor, y=reference_factor, title=f"{factor} vs. {reference_factor}")
     st.plotly_chart(fig)
+
+
+st.subheader("Environmental Stats")
+# User interface for selecting factors 
+selected_factors_env = st.multiselect("Select Environmental Factors:", ["Temperature", "Humidity (%)", "Rainfall(mm)"])
+
+# Handle potential selection errors (optional)
+if not selected_factors_env:
+  st.error("Please select at least one environmental factor.")
+  st.stop()
+
+# Line Charts: Environmental factors over time
+dates = pd.to_datetime(df['Test Date'])
+st.subheader("Line Charts: Environmental Factors Over Time")
+fig_env = px.line(df, x="Test Date", y=selected_factors_env, title="Environmental Factors Over Time", height = 500, width = 1200, template = "gridon")
+st.plotly_chart(fig_env)
+#######
+
+
