@@ -8,7 +8,7 @@ warnings.filterwarnings('ignore')
 import csv
 from pickle import load
 
-
+st.set_page_config(page_title="TerraScope - Predictions", page_icon=":mag:",layout="wide")
 
 #####
 label_mapping = {'apple': 0,
@@ -17,7 +17,7 @@ label_mapping = {'apple': 0,
                   'chickpea': 3, 
                   'coconut': 4, 'coffee': 5, 'cotton': 6, 'kidneybeans': 7, 'lemon': 8, 'lentil': 9, 'maize': 10, 'mango': 11, 'millet': 12, 'mothbeans': 13, 'mungbean': 14, 'orange': 15, 'papaya': 16, 'pigeonpeas': 17, 'potatoes': 18, 'rice': 19, 'sorghum': 20, 'tomatoes': 21, 'watermelon': 22}
 
-st.set_page_config(page_title="TerraScope - Predictions", page_icon=":mag:",layout="wide")
+
 
 #load ML model
 model_path = "pages\model.pkl"
