@@ -20,7 +20,7 @@ if fl is not None:
     st.write(filename)
     df = pd.read_csv(filename, encoding="ISO-8859-1")
 else:
-    os.chdir(r"C:\Users\ashle\OneDrive\Документы\smart_soil")
+    #os.chdir(r"C:\Users\ashle\OneDrive\Документы\smart_soil")
     df = pd.read_csv("crop_data.csv", encoding="ISO-8859-1")
 
 #####################################################
