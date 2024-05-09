@@ -185,4 +185,21 @@ fig_env = px.line(df, x="Test Date", y=selected_factors_env, title="Environmenta
 st.plotly_chart(fig_env, use_container_width= True)
 #######
 
+##############################################
+st.subheader("Nutrient Stats")
+# User interface for selecting factors 
+selected_factors_env = st.multiselect("Select  Nutrient:", ["Nitrogen", "Potassium", "Phosphorous"])
+
+# Handle potential selection errors (optional)
+if not selected_factors_env:
+  st.warning("Please select at least one nutrient.")
+  st.stop()
+
+# Line Charts: Environmental factors over time
+dates = pd.to_datetime(df['Test Date'])
+st.subheader("Line Charts: Nutrient values Over Time")
+fig_env = px.line(df, x="Test Date", y=selected_factors_env, title="Nutrient values Over Time", height = 500, width = 1200, template = "gridon")
+st.plotly_chart(fig_env, use_container_width= True)
+#######
+
 
