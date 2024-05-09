@@ -17,6 +17,7 @@ label_mapping = {'apple': 0,
                   'chickpea': 3, 
                   'coconut': 4, 'coffee': 5, 'cotton': 6, 'kidneybeans': 7, 'lemon': 8, 'lentil': 9, 'maize': 10, 'mango': 11, 'millet': 12, 'mothbeans': 13, 'mungbean': 14, 'orange': 15, 'papaya': 16, 'pigeonpeas': 17, 'potatoes': 18, 'rice': 19, 'sorghum': 20, 'tomatoes': 21, 'watermelon': 22}
 
+st.set_page_config(page_title="TerraScope - Predictions", page_icon=":mag:",layout="wide")
 
 #load ML model
 model_path = "pages\model.pkl"
@@ -33,7 +34,7 @@ number_inputs = st.columns(4)
 n_value = number_inputs[0].number_input("Nitrogen(N)", min_value=0)
 p_value = number_inputs[1].number_input("Phosphorous(P)", min_value=0)
 k_value = number_inputs[2].number_input("Potassium(K)", min_value=0)
-p_value = number_inputs[3].number_input("pH",min_value= 1, max_value= 14)
+ph_value = number_inputs[3].number_input("pH",min_value= 1, max_value= 14)
 num_inputs=st.columns(3)
 temp_value = num_inputs[0].number_input("Temperature")
 rain_value = num_inputs[1].number_input("Rainfall")
