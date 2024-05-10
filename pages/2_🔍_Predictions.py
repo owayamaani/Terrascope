@@ -43,56 +43,61 @@ temp_value = num_inputs[0].number_input("Temperature")
 rain_value = num_inputs[1].number_input("Rainfall")
 humidity_value = num_inputs[2].number_input("Humidity")
 
-# Button to trigger prediction and saving
-save_button = st.button("Save Inputs and Prediction to CSV")
 
 # Load crop labels (assuming a CSV file with format "label,crop_name")
 crop_labels_df = pd.read_csv("crop_labels.csv")
 label_to_name_map = dict(zip(crop_labels_df["label"], crop_labels_df["crop_name"]))
 
 
-# Make prediction and save data to CSV file (triggered on button click)
-if save_button:
-  # Create a dictionary to store input data
-  user_data = {
-      #"Date": text_input_date.strftime('%Y-%m-%d'),
-      "nitrogen": n_value,
-      "phosphorous": p_value,
-      "potassium": k_value,
-      "temperature": temp_value,
-      "humidity": humidity_value,
-      "ph": p_value,
-      "rainfall": rain_value
-      
-  }
+# Button with combined functionality: prediction and download
+download_button = st.button("Download User Input & Prediction as CSV")
 
-# Prepare data for prediction
-  new_data = pd.DataFrame([user_data])
-  predicted_crop = model.predict(new_data)[0]  # Get the first prediction
+# Load crop labels (assuming a CSV file with format "label,crop_name")
+crop_labels_df = pd.read_csv("crop_labels.csv")
+label_to_name_map = dict(zip(crop_labels_df["label"], crop_labels_df["crop_name"]))
 
-  # Map predicted label to crop name using the mapping dictionary
-  predicted_crop_name = label_to_name_map[predicted_crop]
 
-  # Update user data dictionary with prediction
-  user_data["Predicted Crop"] = predicted_crop_name
+def make_prediction_and_download(user_data):
+    """Performs prediction and downloads data as CSV.
 
-  
-  # Display the predicted crop name
-  st.success(f"Predicted Crop: {predicted_crop_name}")
+    Args:
+        user_data (dict): Dictionary containing user input data.
 
-  # Open the CSV file in append mode (
-  with open("user_inputs.csv", "a", newline='') as csvfile:
-    # Create a CSV writer object with fieldnames
-    fieldnames = list(user_data.keys())
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-    
-    # Write header row if the file is empty
-    if csvfile.tell() == 0:
-      writer.writeheader()
-    
-    # Write user data with prediction as a dictionary row
-    writer.writerow(user_data)
+    Returns:
+        None
+    """
 
-  st.success(f"Data saved successfully to user_inputs.csv!")
+    # Prepare data for prediction
+    new_data = pd.DataFrame([user_data])
+    predicted_crop = model.predict(new_data)[0]  
 
-  
+    # Map predicted label to crop name using the mapping dictionary
+    predicted_crop_name = label_to_name_map[predicted_crop]
+
+    # Update user data dictionary with prediction
+    user_data["Predicted Crop"] = predicted_crop_name
+
+    # Display the predicted crop name
+    st.success(f"Predicted Crop: {predicted_crop_name}")
+
+    # Download data as CSV
+    csv_data = [user_data]
+    df = pd.DataFrame(csv_data)
+    csv_file = df.to_csv(index=False)
+
+    st.download_button(label="Download User Input & Prediction", data=csv_file, mime="text/csv", file_name="user_input_prediction.csv")
+
+
+if download_button:
+    # Create a dictionary to store
+    user_data = {
+        "nitrogen": n_value,
+        "phosphorous": p_value,
+        "potassium": k_value,
+        "temperature": temp_value,
+        "humidity": humidity_value,
+        "ph": ph_value,
+        "rainfall": rain_value
+    }
+
+    make_prediction_and_download(user_data)
