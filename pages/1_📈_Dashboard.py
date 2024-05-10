@@ -188,7 +188,7 @@ st.plotly_chart(fig_env, use_container_width= True)
 ##############################################
 st.subheader("Nutrient Stats")
 # User interface for selecting factors 
-selected_factors_env = st.multiselect("Select  Nutrient:", ["Nitrogen", "Potassium", "Phosphorous"])
+selected_factors_env = st.multiselect("Select  Nutrient:", ["Nitrogen", 'Phosphorous',"Potassium"])
 
 # Handle potential selection errors (optional)
 if not selected_factors_env:

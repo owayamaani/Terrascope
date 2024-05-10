@@ -19,7 +19,7 @@ label_mapping = {'apple': 0,
 
 
 
-#load ML model
+#load rf ML model
 model_path = "pages\model.pkl"
 if model_path:
   with open(model_path, 'rb') as file:
