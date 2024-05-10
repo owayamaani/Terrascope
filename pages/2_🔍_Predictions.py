@@ -44,13 +44,13 @@ rain_value = num_inputs[1].number_input("Rainfall")
 humidity_value = num_inputs[2].number_input("Humidity")
 
 
-# Load crop labels (assuming a CSV file with format "label,crop_name")
+# Load crop labels (
 crop_labels_df = pd.read_csv("crop_labels.csv")
 label_to_name_map = dict(zip(crop_labels_df["label"], crop_labels_df["crop_name"]))
 
 
 # Button with combined functionality: prediction and download
-download_button = st.button("Download User Input & Prediction as CSV")
+download_button = st.button("Save User Input & Prediction as CSV")
 
 # Load crop labels (assuming a CSV file with format "label,crop_name")
 crop_labels_df = pd.read_csv("crop_labels.csv")
@@ -58,15 +58,7 @@ label_to_name_map = dict(zip(crop_labels_df["label"], crop_labels_df["crop_name"
 
 
 def make_prediction_and_download(user_data):
-    """Performs prediction and downloads data as CSV.
-
-    Args:
-        user_data (dict): Dictionary containing user input data.
-
-    Returns:
-        None
-    """
-
+    
     # Prepare data for prediction
     new_data = pd.DataFrame([user_data])
     predicted_crop = model.predict(new_data)[0]  
@@ -101,3 +93,24 @@ if download_button:
     }
 
     make_prediction_and_download(user_data)
+    #warnings for ranges outside the recommended
+    if n_value < 20:
+        st.warning("Nitrogen deficiency detected! Consider adding nitrogen fertilizer to your soil.")
+        
+    elif n_value > 100:
+        st.warning("Excess nitrogen detected!Crops with high nitrogen uptake that might be suitable: rice, banana, potatoes, cotton")
+
+    if p_value < 8:
+        st.warning("Phosphorus deficiency detected! Consider adding fertilizer with more phosphates to your soil.")
+    elif p_value > 40:
+        st.warning("Excess phosphorus detected! Crops with high phosphorus uptake that might be suitable: banana, cotton, mango")
+
+    if k_value <20:
+        st.warning("Potassium deficiency detected! Consider adding fertilizer with more potassium to your soil.")
+    elif k_value >300:
+        st.warning("Excess potassium detected! Crops with high potassium uptake that might be suitable: avocado, chickpea")
+
+    if ph_value <5.5:
+        st.warning("Low pH detected! Consider adding wood ash, lime(calcium carbonate) or dolomite Lime(calcium carbonate & magnesium carbonate) to your soil.")
+    elif ph_value >7.5:
+        st.warning("High pH detected! consider using fertilizer with more suphate content")
