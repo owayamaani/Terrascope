@@ -2,10 +2,10 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd 
-import os
 import warnings
 warnings.filterwarnings('ignore')
 import csv
+import pickle
 from pickle import load
 
 
@@ -20,10 +20,13 @@ label_mapping = {'apple': 0,
 
 
 #load rf ML model
-model_path = "pages\model.pkl"
-if model_path:
-  with open(model_path, 'rb') as file:
-    model = load(file)
+
+with open('model.pkl', 'rb') as file:
+  model = pickle.load(file)
+#model_path = "pages\model.pkl"
+#if model_path:
+ # with open(model_path, 'rb') as file:
+   # model = load(file)
 ###################
 
 #prompting user input
