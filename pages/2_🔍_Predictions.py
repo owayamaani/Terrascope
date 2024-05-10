@@ -8,7 +8,7 @@ warnings.filterwarnings('ignore')
 import csv
 from pickle import load
 
-st.set_page_config(page_title="TerraScope - Predictions", page_icon=":mag:",layout="wide")
+
 
 #####
 label_mapping = {'apple': 0,
