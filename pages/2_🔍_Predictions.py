@@ -75,7 +75,7 @@ def make_prediction_and_download(user_data):
     df = pd.DataFrame(csv_data)
     csv_file = df.to_csv(index=False)
 
-    st.download_button(label="Download User Input & Prediction", data=csv_file, mime="text/csv", file_name="user_input_prediction.csv")
+    st.download_button(label="Download User Input & Prediction", data=csv_file, mime="text/csv", file_name="user_input_recommendation.csv")
 
 
 if download_button:
