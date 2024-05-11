@@ -2,7 +2,6 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd 
-import os
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -20,7 +19,6 @@ if fl is not None:
     st.write(filename)
     df = pd.read_csv(filename, encoding="ISO-8859-1")
 else:
-    #os.chdir(r"C:\Users\ashle\OneDrive\Документы\smart_soil")
     df = pd.read_csv("crop_data.csv", encoding="ISO-8859-1")
 
 #####################################################
@@ -151,7 +149,7 @@ for factor in selected_factors:
     st.plotly_chart(fig, use_container_width= True)
 
 #####################################################
-selected_factors = st.multiselect("Select Factors to Compare:", df.columns[1:])  # Exclude Crop column
+selected_factors = st.multiselect("Select Factors to Compare:", df.columns[1:])  
 
 # Handling potential selection errors
 if len(selected_factors) < 2:
@@ -190,7 +188,7 @@ st.subheader("Nutrient Stats")
 # User interface for selecting factors 
 selected_factors_env = st.multiselect("Select  Nutrient:", ["Nitrogen", 'Phosphorous',"Potassium"])
 
-# Handle potential selection errors (optional)
+# Handle potential selection errors 
 if not selected_factors_env:
   st.warning("Please select at least one nutrient.")
   st.stop()

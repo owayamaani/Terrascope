@@ -1,10 +1,8 @@
 #necessary libraries
 import streamlit as st
-import plotly.express as px
 import pandas as pd 
 import warnings
 warnings.filterwarnings('ignore')
-import csv
 import pickle
 from pickle import load
 
@@ -67,10 +65,10 @@ def make_prediction_and_download(user_data):
     predicted_crop_name = label_to_name_map[predicted_crop]
 
     # Update user data dictionary with prediction
-    user_data["Predicted Crop"] = predicted_crop_name
+    user_data["Recommended Crop"] = predicted_crop_name
 
     # Display the predicted crop name
-    st.success(f"Predicted Crop: {predicted_crop_name}")
+    st.success(f"Recommended Crop: {predicted_crop_name}")
 
     # Download data as CSV
     csv_data = [user_data]
