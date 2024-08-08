@@ -1,5 +1,9 @@
-# dashboard-1
-Responsive dashboard built with python with predictive functionalities
+# Terrascope
+Responsive soil analysis dashboard.
+
+The application focuses on key performance indicators such as moisture, temperature, 
+pH, and NPK (Nitrogen, Phosphorus, Potassium) values. 
+
 
 
 # How to use
